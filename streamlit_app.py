@@ -55,7 +55,7 @@ st.sidebar.write(
 
 
 st.sidebar.write(
-    f"[Leer más](https://support.geoagro.com/es/kb/cuales-son-y-como-se-generan-las-capas-vectoriales/) acerca de esto."
+    f"[Leer más](https://support.geoagro.com/es/) acerca de esto."
 )
 
 form = st.form(key="annotation")
