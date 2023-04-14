@@ -2,7 +2,6 @@ import logging
 import time
 import webbrowser
 import streamlit as st
-import streamlit_google_oauth as oauth
 import datasource as ds
 import pandas as pd
 from datetime import datetime
@@ -17,13 +16,6 @@ from streamlit_option_menu import option_menu
 import streamlit.components.v1 as components
 from dateutil.relativedelta import relativedelta
 import os.path
-
-
-client_id = "420866573912-f2hoi3eslaqauot1i4e888u969lv2dk8.apps.googleusercontent.com"
-client_secret = "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"
-#redirect_uri=" http://localhost:8501"
-redirect_uri="https://datarequest.geoagro.com/"
-
 
 
 def clear_fields_data():
@@ -967,36 +959,12 @@ def submit():
             st.error(traslate("error_create_request_fields",lang),icon="🚨")
 
 
-#if __name__ == "__main__":
-#    user_info={'email': "acuello@geoagro.com", 'language': 'es', 'env': 'test', 'domainId': None, 'areaId': None, 'workspaceId': None, 'seasonId': None, 'farmId': None}
-#    main_app(user_info)
-
-
 if __name__ == "__main__":
-    try:
-        params=st.experimental_get_query_params()
-        if not params is False:
-            token1=params['token1'][0]
-            token2=params['token2'][0]
-            user_info=decrypt_token(token1)
-    except Exception as exception:
-        print (exception)
-        login_info = oauth.login(
-                client_id=client_id,
-                client_secret=client_secret,
-                redirect_uri=redirect_uri,
-            )
-        if login_info:
-            user_id, user_email = login_info
-            user_info={'email': user_email, 'language': 'es', 'env': 'prod', 'domainId': None, 'areaId': None, 'workspaceId': None, 'seasonId': None, 'farmId': None}
-            
-        else:
-            logging.error("Not logged")
-    
-    if not user_info is False:
-        main_app(user_info)
-    else:
-        st.error("Error accessing Datarequest. Please contact an administrator.")
+    user_info={'email': "acuello@geoagro.com", 'language': 'es', 'env': 'test', 'domainId': None, 'areaId': None, 'workspaceId': None, 'seasonId': None, 'farmId': None}
+    main_app(user_info)
+
+
+
 
 
 # streamlit run app.py --server.port 8080
