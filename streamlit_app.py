@@ -29,6 +29,7 @@ def getData(kobo_token):
                             items {
                             data
                             geolocation
+                            attachments
                             submitted_by
                             submission_time
                             }
@@ -111,7 +112,7 @@ with st.form("my_form"):
             if result_sync['data']['syncDataKoboTokenServer']['success']:
                 st.info("Sincronización existosa.")
             else:
-                st.error(result_sync['message'])
+                st.error(result_sync['data']['syncDataKoboTokenServer']['message'])
             
 
     # Add a submit button to the form
@@ -141,9 +142,8 @@ with st.form("my_form"):
                     for submit in definition['submits']['items']:
                         # print the submission data and submission time
 
-                        row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit }
+                        row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
                         table_data.append(row)
-
 
                         try: 
 
