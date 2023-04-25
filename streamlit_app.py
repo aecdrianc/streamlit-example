@@ -28,7 +28,6 @@ def getData(kobo_token):
                         submits {
                             items {
                             data
-                            attachments
                             geolocation
                             submitted_by
                             submission_time
@@ -51,6 +50,29 @@ def getData(kobo_token):
                 raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
         except Exception as exception:
             logging.error(exception)
+
+
+def syncDataKoboTokenServer(kobo_token):
+    try:
+        mutation=(
+            """
+            mutation MyMutation {
+            syncDataKoboTokenServer(token: "%s", server: "https://kf.kobotoolbox.org/api/v2") {
+                message
+                success
+            }
+            }
+            """
+            % (kobo_token)
+        )
+        
+        request = requests.post(urlApi, json={"query": mutation}, headers=header, timeout=60)
+        if request.status_code == 200:
+            return request.json()
+        else:
+            raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, mutation))
+    except Exception as exception:
+        logging.error(exception)
 
 
 # Define a Streamlit function to display the map
@@ -76,29 +98,53 @@ st.title("Recorridas")
 
 # Define the Streamlit form
 with st.form("my_form"):
+    
     # Add a text input field to the form
-    token_input_text = st.text_input("Ingrese el Kobo Token", value='71fc459f827710c4ab918771a017b45e0373d6e3')
+    token_input_text = st.text_input("1- Ingrese el Kobo Token", value='71fc459f827710c4ab918771a017b45e0373d6e3')
+
+    st.write("2- Sincronizar los datos de Kobo.")
+
+    sync_button=st.form_submit_button("Sincronizar")
+    if sync_button:
+        with st.spinner('Espere por favor...'):
+            result_sync=syncDataKoboTokenServer(token_input_text)
+            if result_sync['data']['syncDataKoboTokenServer']['success']:
+                st.info("Sincronización existosa.")
+            else:
+                st.error(result_sync['message'])
+            
 
     # Add a submit button to the form
-    submit_button = st.form_submit_button("Enviar")
+    
+    st.write("3- Verificar los datos sincronizados.")
+
+    submit_button = st.form_submit_button("Consultar")
 
     # Define behavior for when the form is submitted
     if submit_button and token_input_text is not None:
         # Load sample data
-        data = getData(token_input_text)
-        print (data['data']['listProjects']['items'])
-        
+
+        with st.spinner('Espere por favor...'):
+            data = getData(token_input_text)
+
         if data['data']['listProjects']['items']!=[]:
-    
+            
             m = folium.Map(location=[-34.603722, -58.381592], zoom_start=5)
 
             # iterate over the items in the listProjects object
+            table_data = []
+
             for project in data['data']['listProjects']['items']:
                 # iterate over the forms in each project
-                for form in project['forms_definition']['items']:
+                for definition in project['forms_definition']['items']:
                     # iterate over the submissions in each form
-                    for submit in form['submits']['items']:
+                    for submit in definition['submits']['items']:
                         # print the submission data and submission time
+
+                        row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit }
+                        table_data.append(row)
+
+
                         try: 
 
                             keys_standard_form={'_attachments','_geolocation','meta/rootUuid','meta/deprecatedID'}
@@ -120,7 +166,9 @@ with st.form("my_form"):
                         except Exception as exs:
                             print (exs)
                             continue
-
+            
+            df = pd.DataFrame(table_data)
+            st.table(df)
 
             # Display the map and allow the user to select a data point
             with st.container():
