@@ -9,7 +9,7 @@ import json
 
 urlApi="https://f2lzsiec4jdvfj3skzyuvxkil4.appsync-api.us-east-1.amazonaws.com/graphql"
 header = {"x-api-key": "da2-pzzdaq5habgdpbhpaxwlngah7e"}
-
+csv=""
 
 def getData(kobo_token):
         try:
@@ -94,6 +94,9 @@ def display_tooltip():
         st.write("Latitude:", data.loc[index, "Latitude"])
         st.write("Longitude:", data.loc[index, "Longitude"])
 
+def convert_df(df):
+   return df.to_csv(index=False).encode('utf-8')
+
 st.set_page_config(page_title="Recorridas",layout="wide")
 st.title("Recorridas")
 
@@ -101,7 +104,7 @@ st.title("Recorridas")
 with st.form("my_form"):
     
     # Add a text input field to the form
-    token_input_text = st.text_input("1- Ingrese el Kobo Token", value='71fc459f827710c4ab918771a017b45e0373d6e3')
+    token_input_text = st.text_input("1- Ingrese el Kobo Token")
 
     st.write("2- Sincronizar los datos de Kobo.")
 
@@ -170,6 +173,10 @@ with st.form("my_form"):
             df = pd.DataFrame(table_data)
             st.table(df)
 
+            csv = convert_df(df)
+
+           
+
             # Display the map and allow the user to select a data point
             with st.container():
                 try:
@@ -188,3 +195,11 @@ with st.form("my_form"):
                     pass
         else:
             st.error("No se encontró información asociada a ese token.")
+
+st.download_button(
+            "Download CSV",
+            csv,
+            "file.csv",
+            "text/csv",
+            key='download-csv'
+            )
