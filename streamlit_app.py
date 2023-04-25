@@ -113,7 +113,7 @@ with st.form("my_form"):
         with st.spinner('Espere por favor...'):
             result_sync=syncDataKoboTokenServer(token_input_text)
             if result_sync['data']['syncDataKoboTokenServer']['success']:
-                st.info("Sincronización existosa.")
+                st.info("Sincronización exitosa.")
             else:
                 st.error(result_sync['data']['syncDataKoboTokenServer']['message'])
             
