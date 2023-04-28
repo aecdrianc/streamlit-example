@@ -58,10 +58,7 @@ def syncDataKoboTokenServer(kobo_token):
         mutation=(
             """
             mutation MyMutation {
-            syncDataKoboTokenServer(token: "%s", server: "https://kf.kobotoolbox.org/api/v2") {
-                message
-                success
-            }
+            syncDataKoboTokenServer(token: "%s", server: "https://kf.kobotoolbox.org/api/v2") 
             }
             """
             % (kobo_token)
@@ -112,12 +109,18 @@ with st.form("my_form"):
     if sync_button:
         with st.spinner('Espere por favor...'):
             result_sync=syncDataKoboTokenServer(token_input_text)
-            if result_sync['data']['syncDataKoboTokenServer']['success']:
-                st.info("Sincronización exitosa.")
-            else:
-                st.error(result_sync['data']['syncDataKoboTokenServer']['message'])
+
+
+            asd=json.loads(result_sync['data']['syncDataKoboTokenServer'])
+            # Convert the JSON data to a DataFrame
+            df = pd.json_normalize(asd)
+
+            # Display the DataFrame in a table
+            st.table(df)
+            
             
 
+            
     # Add a submit button to the form
     
     st.write("3- Verificar los datos sincronizados.")
@@ -145,6 +148,8 @@ with st.form("my_form"):
                     for submit in definition['submits']['items']:
                         # print the submission data and submission time
 
+                        print (submit)
+
                         row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
                         table_data.append(row)
 
@@ -155,13 +160,29 @@ with st.form("my_form"):
 
                             submit2={ k:v for k,v in sub.items() if k not in keys_standard_form }
                             
-                            url_attachment=json.loads(submit['attachments'])[0]['url']
+                            try:
+                                url_attachment=json.loads(submit['attachments'])[0]['url']
+                                print (url_attachment)
+                                tooltip=folium.Tooltip(
+                                   '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                    sticky=True,
+                                    direction='top'
+                                )
+                            except:
+                                url_attachment=""
+                                tooltip=folium.Tooltip(
+                                   '<div style="text-align:center"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                    sticky=True,
+                                    direction='top'
+                                )
+                            
 
                             tooltip=folium.Tooltip(
                                 '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
                                 sticky=True,
                                 direction='top'
                             )
+
                             folium.Marker([submit['geolocation'][0],submit['geolocation'][1]],
                                 tooltip=tooltip).add_to(m)
                             
