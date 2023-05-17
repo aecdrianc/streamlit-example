@@ -7,11 +7,9 @@ from streamlit_folium import folium_static
 import json
 
 
-urlApi="https://f2lzsiec4jdvfj3skzyuvxkil4.appsync-api.us-east-1.amazonaws.com/graphql"
-header = {"x-api-key": "da2-pzzdaq5habgdpbhpaxwlngah7e"}
 csv=""
 
-def getData(kobo_token):
+def getData(kobo_token, urlApi, apiKey):
         try:
             query=(
                 """
@@ -44,7 +42,7 @@ def getData(kobo_token):
                 % (kobo_token)
             )
             
-            request = requests.post(urlApi, json={"query": query}, headers=header, timeout=60)
+            request = requests.post(urlApi, json={"query": query}, headers=apiKey, timeout=60)
             if request.status_code == 200:
                 return request.json()
             else:
@@ -53,7 +51,7 @@ def getData(kobo_token):
             logging.error(exception)
 
 
-def syncDataKoboTokenServer(kobo_token):
+def syncDataKoboTokenServer(kobo_token,  urlApi,apiKey):
     try:
         mutation=(
             """
@@ -64,7 +62,7 @@ def syncDataKoboTokenServer(kobo_token):
             % (kobo_token)
         )
         
-        request = requests.post(urlApi, json={"query": mutation}, headers=header, timeout=60)
+        request = requests.post(urlApi, json={"query": mutation}, headers=apiKey, timeout=60)
         if request.status_code == 200:
             return request.json()
         else:
@@ -100,7 +98,16 @@ st.title("Recorridas")
 # Define the Streamlit form
 with st.form("my_form"):
     
-    # Add a text input field to the form
+    env = st.radio("Seleccione el Entorno", ("Prod", "Test"))
+
+    if env=="Prod":
+        urlApi="https://tstdfdaahvgt5fita7l64pc4vi.appsync-api.us-east-1.amazonaws.com/graphql"
+        apiKey = {"x-api-key": "da2-25akzucavvc4lk3txokivsrh6a"}
+    else:
+        urlApi="https://f2lzsiec4jdvfj3skzyuvxkil4.appsync-api.us-east-1.amazonaws.com/graphql"
+        apiKey = {"x-api-key": "da2-pzzdaq5habgdpbhpaxwlngah7e"}
+
+
     token_input_text = st.text_input("1- Ingrese el Kobo Token")
 
     st.write("2- Sincronizar los datos de Kobo.")
@@ -108,7 +115,7 @@ with st.form("my_form"):
     sync_button=st.form_submit_button("Sincronizar")
     if sync_button:
         with st.spinner('Espere por favor...'):
-            result_sync=syncDataKoboTokenServer(token_input_text)
+            result_sync=syncDataKoboTokenServer(token_input_text, urlApi,apiKey)
 
 
             asd=json.loads(result_sync['data']['syncDataKoboTokenServer'])
@@ -132,7 +139,7 @@ with st.form("my_form"):
         # Load sample data
 
         with st.spinner('Espere por favor...'):
-            data = getData(token_input_text)
+            data = getData(token_input_text, urlApi,apiKey)
 
         if data['data']['listProjects']['items']!=[]:
             
