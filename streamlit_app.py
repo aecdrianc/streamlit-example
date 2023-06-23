@@ -156,7 +156,7 @@ with st.form("my_form"):
                 # iterate over the forms in each project
                 for definition in project['forms_definition']['items']:
                     # iterate over the submissions in each form
-                    for submit in definition['submits']['items']:
+                    for submit in definition['forms_data']['items']:
                         # print the submission data and submission time
 
                         print (submit)
