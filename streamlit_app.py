@@ -104,8 +104,8 @@ with st.form("my_form"):
         urlApi="https://tstdfdaahvgt5fita7l64pc4vi.appsync-api.us-east-1.amazonaws.com/graphql"
         apiKey = {"x-api-key": "da2-25akzucavvc4lk3txokivsrh6a"}
     else:
-        urlApi="https://f2lzsiec4jdvfj3skzyuvxkil4.appsync-api.us-east-1.amazonaws.com/graphql"
-        apiKey = {"x-api-key": "da2-pzzdaq5habgdpbhpaxwlngah7e"}
+        urlApi="https://5aehyzfqovberehh7fwy57pf6u.appsync-api.us-east-1.amazonaws.com/graphql"
+        header = {"x-api-key": "da2-k4b5ifqbunhcvpj73vd4hdcrri"}
 
 
     token_input_text = st.text_input("1- Ingrese el Kobo Token")
