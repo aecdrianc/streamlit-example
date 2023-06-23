@@ -139,6 +139,9 @@ with st.form("my_form"):
         # Load sample data
 
         with st.spinner('Espere por favor...'):
+            st.write (token_input_text)
+            st.write (urlApi)
+            st.write (apiKey)
             data = getData(token_input_text, urlApi,apiKey)
 
         st.write (data)
