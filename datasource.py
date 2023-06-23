@@ -5,9 +5,8 @@ import json
 import boto3
 
 
-
-urlApi_test = "https://lpul7iylefbdlepxbtbovin4zy.appsync-api.us-west-2.amazonaws.com/graphql"
-header_test = {"x-api-key": "da2-al2jiagsazhcfaxqtaswe2pi2i"}
+urlApi_test="https://5aehyzfqovberehh7fwy57pf6u.appsync-api.us-east-1.amazonaws.com/graphql"
+header_test = {"x-api-key": "da2-k4b5ifqbunhcvpj73vd4hdcrri"}
 
 urlApi_prod = "https://3xrq2cixcbf3jjgtjjlqmqviqm.appsync-api.us-west-2.amazonaws.com/graphql"
 header_prod = {"x-api-key": "da2-yawqn7mxdvdcxntgsqvlqopbb4"}
