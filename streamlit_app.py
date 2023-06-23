@@ -23,7 +23,7 @@ def getData(kobo_token, urlApi, apiKey):
                         items {
                         id
                         definition
-                        submits {
+                        forms_data {
                             items {
                             data
                             geolocation
