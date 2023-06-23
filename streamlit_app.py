@@ -140,7 +140,6 @@ with st.form("my_form"):
         with st.spinner('Espere por favor...'):
             data = getData(token_input_text, urlApi,apiKey)
 
-        st.write (data)
         if data['data']['listProjects']['items']!=[]:
             
             m = folium.Map(location=[-34.603722, -58.381592], zoom_start=5)
