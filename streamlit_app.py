@@ -41,7 +41,7 @@ def getData(kobo_token, urlApi, apiKey):
                 """
                 % (kobo_token)
             )
-            
+            st.write(query)
             request = requests.post(urlApi, json={"query": query}, headers=apiKey, timeout=60)
             if request.status_code == 200:
                 return request.json()
