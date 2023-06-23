@@ -161,7 +161,7 @@ with st.form("my_form"):
 
                         print (submit)
 
-                        row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
+                        row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id_FormDefinition'] , 'Submits (data)':submit ['data']}
                         table_data.append(row)
 
                         try: 
