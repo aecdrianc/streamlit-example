@@ -16,12 +16,12 @@ def getData(kobo_token, urlApi, apiKey):
                 query MyQuery {
                 listProjects (filter: {kobo_token: {eq: "%s"}})  {
                     items {
-                    id
+                    id_Project
                     name
                     kobo_token
                     forms_definition {
                         items {
-                        id
+                        id_FormDefinition
                         definition
                         forms_data {
                             items {
@@ -141,6 +141,7 @@ with st.form("my_form"):
         with st.spinner('Espere por favor...'):
             data = getData(token_input_text, urlApi,apiKey)
 
+        print (data)
         if data['data']['listProjects']['items']!=[]:
             
             m = folium.Map(location=[-34.603722, -58.381592], zoom_start=5)
