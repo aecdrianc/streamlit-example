@@ -41,7 +41,6 @@ def getData(kobo_token, urlApi, apiKey):
                 """
                 % (kobo_token)
             )
-            st.write(query)
             request = requests.post(urlApi, json={"query": query}, headers=apiKey, timeout=60)
             if request.status_code == 200:
                 return request.json()
@@ -139,9 +138,6 @@ with st.form("my_form"):
         # Load sample data
 
         with st.spinner('Espere por favor...'):
-            st.write (token_input_text)
-            st.write (urlApi)
-            st.write (apiKey)
             data = getData(token_input_text, urlApi,apiKey)
 
         st.write (data)
