@@ -105,7 +105,7 @@ with st.form("my_form"):
         apiKey = {"x-api-key": "da2-25akzucavvc4lk3txokivsrh6a"}
     else:
         urlApi="https://5aehyzfqovberehh7fwy57pf6u.appsync-api.us-east-1.amazonaws.com/graphql"
-        header = {"x-api-key": "da2-k4b5ifqbunhcvpj73vd4hdcrri"}
+        apiKey = {"x-api-key": "da2-k4b5ifqbunhcvpj73vd4hdcrri"}
 
 
     token_input_text = st.text_input("1- Ingrese el Kobo Token")
