@@ -146,7 +146,7 @@ with st.form("my_form"):
             # iterate over the items in the listProjects object
             table_data = []
 
-            for project in data['data']['listUSers']['items']:
+            for project in data['data']['listUsers']['items']:
                 # iterate over the forms in each project
                 for definition in project['forms_definition']['items']:
                     # iterate over the submissions in each form
