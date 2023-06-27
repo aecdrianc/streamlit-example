@@ -116,7 +116,7 @@ with st.form("my_form"):
         with st.spinner('Espere por favor...'):
             result_sync=syncDataKoboTokenServer(token_input_text, urlApi,apiKey)
 
-
+            st.write(result_sync)
             asd=json.loads(result_sync['data']['syncDataKoboTokenServer'])
             # Convert the JSON data to a DataFrame
             df = pd.json_normalize(asd)
