@@ -155,8 +155,12 @@ with st.form("my_form"):
                                 # print the submission data and submission time
         
                                 print (submit)
-        
-                                row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
+
+                                try:
+                                        row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
+                                except Exception as exs:
+                                        st.write (str(exs))
+                
                                 table_data.append(row)
         
                                 try: 
