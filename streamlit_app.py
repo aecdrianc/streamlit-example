@@ -147,7 +147,6 @@ with st.form("my_form"):
             table_data = []
 
             for user in data['data']['listUsers']['items']:
-                st.write (user)
                 for project in user['projects']['items']:
                         # iterate over the forms in each project
                         for definition in project['forms_definition']['items']:
