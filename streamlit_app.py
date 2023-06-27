@@ -148,7 +148,7 @@ with st.form("my_form"):
 
             for user in data['data']['listUsers']['items']:
                 st.write (user)
-                for project in user['data']['listProjects']['items']:
+                for project in user['projects']['items']:
                         # iterate over the forms in each project
                         for definition in project['forms_definition']['items']:
                             # iterate over the submissions in each form
