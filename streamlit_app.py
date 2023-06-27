@@ -146,56 +146,57 @@ with st.form("my_form"):
             # iterate over the items in the listProjects object
             table_data = []
 
-            for project in data['data']['listUsers']['items']:
-                # iterate over the forms in each project
-                for definition in project['forms_definition']['items']:
-                    # iterate over the submissions in each form
-                    for submit in definition['forms_data']['items']:
-                        # print the submission data and submission time
-
-                        print (submit)
-
-                        row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
-                        table_data.append(row)
-
-                        try: 
-
-                            keys_standard_form={'_attachments','_geolocation','meta/rootUuid','meta/deprecatedID'}
-                            sub=json.loads(submit['data'])
-
-                            submit2={ k:v for k,v in sub.items() if k not in keys_standard_form }
-                            
-                            try:
-                                url_attachment=json.loads(submit['attachments'])[0]['url']
-                                print (url_attachment)
-                                tooltip=folium.Tooltip(
-                                   '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
-                                    sticky=True,
-                                    direction='top'
-                                )
-                            except:
-                                url_attachment=""
-                                tooltip=folium.Tooltip(
-                                   '<div style="text-align:center"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
-                                    sticky=True,
-                                    direction='top'
-                                )
-                            
-
-                            tooltip=folium.Tooltip(
-                                '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
-                                sticky=True,
-                                direction='top'
-                            )
-
-                            folium.Marker([submit['geolocation'][0],submit['geolocation'][1]],
-                                tooltip=tooltip).add_to(m)
-                            
-                            
-                        except Exception as exs:
-                            print (exs)
-                            continue
-            
+            for user in data['data']['listUsers']['items']:
+                for project in user['data']['listProjects']['items']:
+                        # iterate over the forms in each project
+                        for definition in project['forms_definition']['items']:
+                            # iterate over the submissions in each form
+                            for submit in definition['forms_data']['items']:
+                                # print the submission data and submission time
+        
+                                print (submit)
+        
+                                row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
+                                table_data.append(row)
+        
+                                try: 
+        
+                                    keys_standard_form={'_attachments','_geolocation','meta/rootUuid','meta/deprecatedID'}
+                                    sub=json.loads(submit['data'])
+        
+                                    submit2={ k:v for k,v in sub.items() if k not in keys_standard_form }
+                                    
+                                    try:
+                                        url_attachment=json.loads(submit['attachments'])[0]['url']
+                                        print (url_attachment)
+                                        tooltip=folium.Tooltip(
+                                           '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                            sticky=True,
+                                            direction='top'
+                                        )
+                                    except:
+                                        url_attachment=""
+                                        tooltip=folium.Tooltip(
+                                           '<div style="text-align:center"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                            sticky=True,
+                                            direction='top'
+                                        )
+                                    
+        
+                                    tooltip=folium.Tooltip(
+                                        '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                        sticky=True,
+                                        direction='top'
+                                    )
+        
+                                    folium.Marker([submit['geolocation'][0],submit['geolocation'][1]],
+                                        tooltip=tooltip).add_to(m)
+                                    
+                                    
+                                except Exception as exs:
+                                    print (exs)
+                                    continue
+                    
             df = pd.DataFrame(table_data)
             st.table(df)
 
