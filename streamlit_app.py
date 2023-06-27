@@ -14,29 +14,29 @@ def getData(kobo_token, urlApi, apiKey):
             query=(
                 """
                 query MyQuery {
-                listProjects (filter: {kobo_token: {eq: "%s"}})  {
-                    items {
-                    id_Project
-                    name
-                    kobo_token
-                    forms_definition {
-                        items {
-                        id
-                        definition
-                        forms_data {
+                          listUsers(filter: {id: {eq: "%s"}}) {
                             items {
-                            data
-                            geolocation
-                            attachments
-                            submitted_by
-                            submission_time
+                              id
+                              projects {
+                                items {
+                                  id
+                                  name
+                                  forms_definition {
+                                    items {
+                                      definition
+                                      id
+                                      forms_data {
+                                        items {
+                                          data
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
                             }
+                          }
                         }
-                        }
-                    }
-                    }
-                }
-                }
 
                 """
                 % (kobo_token)
@@ -139,14 +139,14 @@ with st.form("my_form"):
         with st.spinner('Espere por favor...'):
             data = getData(token_input_text, urlApi,apiKey)
 
-        if data['data']['listProjects']['items']!=[]:
+        if data['data']['listUsers']['items']!=[]:
             
             m = folium.Map(location=[-34.603722, -58.381592], zoom_start=5)
 
             # iterate over the items in the listProjects object
             table_data = []
 
-            for project in data['data']['listProjects']['items']:
+            for project in data['data']['listUSers']['items']:
                 # iterate over the forms in each project
                 for definition in project['forms_definition']['items']:
                     # iterate over the submissions in each form
