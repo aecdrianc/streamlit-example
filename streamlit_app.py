@@ -35,7 +35,7 @@ def getData(kobo_token, urlApi, apiKey):
                               }
                             }
                           }
-                        
+                      }  
                 """
                 % (kobo_token)
             )
