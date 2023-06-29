@@ -190,7 +190,7 @@ with st.form("my_form"):
                             
 
                             tooltip=folium.Tooltip(
-                                '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project_name'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project_name+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
                                 sticky=True,
                                 direction='top'
                             )
