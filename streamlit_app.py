@@ -14,21 +14,20 @@ def getData(kobo_token, urlApi, apiKey):
             query=(
                 """
                 query MyQuery {
-                          listUsers(filter: {id: {eq: "%s"}}) {
+
+                          listUsers(filter: {kobo_token: {eq: "%s"}}) {
                             items {
                               id
-                              projects {
-                                items {
-                                  id
-                                  name
-                                  forms_definition {
-                                    items {
-                                      definition
-                                      id
-                                      forms_data {
-                                        items {
-                                          data
-                                        }
+                              project_id {
+                                id
+                                name
+                                forms_definition {
+                                  items {
+                                    id
+                                    definition
+                                    forms_data {
+                                      items {
+                                        data
                                       }
                                     }
                                   }
@@ -36,8 +35,7 @@ def getData(kobo_token, urlApi, apiKey):
                               }
                             }
                           }
-                        }
-
+                        
                 """
                 % (kobo_token)
             )
@@ -147,15 +145,12 @@ with st.form("my_form"):
             table_data = []
 
             for user in data['data']['listUsers']['items']:
-                for project in user['projects']['items']:
                         # iterate over the forms in each project
-                        for definition in project['forms_definition']['items']:
+                        for definition in user['project_id']['definition']:
                             # iterate over the submissions in each form
                             for submit in definition['forms_data']['items']:
                                 # print the submission data and submission time
         
-                                print (submit)
-
                                 try:
                                         row = {'Project Name (Form)': project['name'], 'Definition (id version)':definition['id'] , 'Submits (data)':submit ['data']}
                                 except Exception as exs:
