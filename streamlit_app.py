@@ -28,6 +28,7 @@ def getData(kobo_token, urlApi, apiKey):
                                     forms_data {
                                       items {
                                         data
+                                        geolocation
                                       }
                                     }
                                   }
