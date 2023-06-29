@@ -29,6 +29,8 @@ def getData(kobo_token, urlApi, apiKey):
                                       items {
                                         data
                                         geolocation
+                                        attachments
+                                        submission_time
                                       }
                                     }
                                   }
@@ -168,12 +170,13 @@ with st.form("my_form"):
                             sub=json.loads(submit['data'])
 
                             submit2={ k:v for k,v in sub.items() if k not in keys_standard_form }
-                            
+
+                
                             try:
                                 url_attachment=json.loads(submit['attachments'])[0]['url']
-                                print (url_attachment)
+                                st.write (url_attachment)
                                 tooltip=folium.Tooltip(
-                                   '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                   '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project_name+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
                                     sticky=True,
                                     direction='top'
                                 )
@@ -187,7 +190,7 @@ with st.form("my_form"):
                             
 
                             tooltip=folium.Tooltip(
-                                '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project_name'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
                                 sticky=True,
                                 direction='top'
                             )
