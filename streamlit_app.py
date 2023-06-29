@@ -139,7 +139,6 @@ with st.form("my_form"):
 
         with st.spinner('Espere por favor...'):
             data = getData(token_input_text, urlApi,apiKey)
-            st.write (data)
 
         if data['data']['listUsers']['items']!=[]:
             
@@ -183,7 +182,7 @@ with st.form("my_form"):
                             except:
                                 url_attachment=""
                                 tooltip=folium.Tooltip(
-                                   '<div style="text-align:center"><br>'+project['name']+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
+                                   '<div style="text-align:center"><br>'+project_name+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
                                     sticky=True,
                                     direction='top'
                                 )
