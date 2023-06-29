@@ -173,7 +173,6 @@ with st.form("my_form"):
                 
                             try:
                                 url_attachment=json.loads(submit['attachments'])[0]['url']
-                                st.write (url_attachment)
                                 tooltip=folium.Tooltip(
                                    '<div style="text-align:center"><img src="'+url_attachment+'"style="max-width:800px;"><br>'+project_name+'<br>'+"Fecha Muestra: "+submit['submission_time']+'<br>'+"Ubicación: "+str(submit['geolocation'])+'<br>'+"Datos: "+'<pre>{}</pre>'.format(json.dumps(submit2))+'<br></div>',
                                     sticky=True,
