@@ -147,8 +147,6 @@ with st.form("my_form"):
 
             for user in data['data']['listUsers']['items']:
                 user_id = user['id']
-                kobo_token = user['kobo_token']
-                project_id = user['project_id']['id']
                 project_name = user['project_id']['name']
                 forms_definition = user['project_id']['forms_definition']['items']
                   
